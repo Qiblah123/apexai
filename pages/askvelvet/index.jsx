@@ -5,6 +5,7 @@ export default function AskVelvet() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [voices, setVoices] = useState([]);
+  const [displayedAnswer, setDisplayedAnswer] = useState('');
 
   useEffect(() => {
     const loadVoices = () => {
@@ -38,6 +39,21 @@ export default function AskVelvet() {
     setTimeout(() => speakNext(), 100);
   };
 
+  const typeOut = (text, callback) => {
+    setDisplayedAnswer('');
+    let index = 0;
+    const typing = () => {
+      if (index <= text.length) {
+        setDisplayedAnswer(text.slice(0, index));
+        index++;
+        setTimeout(typing, 15);
+      } else {
+        callback();
+      }
+    };
+    typing();
+  };
+
   const handleSubmit = async () => {
     if (!question.trim()) return;
     const newMessages = [...messages, { role: 'user', content: question }];
@@ -53,8 +69,9 @@ export default function AskVelvet() {
       });
       const data = await res.json();
       const aiMessage = { role: 'assistant', content: data.answer };
+
+      typeOut(data.answer, () => speak(data.answer));
       setMessages((prev) => [...prev, aiMessage]);
-      speak(data.answer);
     } catch (err) {
       const errorMsg = { role: 'assistant', content: "Sorry, I wasn’t able to respond just now." };
       setMessages((prev) => [...prev, errorMsg]);
@@ -71,17 +88,17 @@ export default function AskVelvet() {
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`p-4 rounded-2xl max-w-[85%] whitespace-pre-wrap text-[15px] leading-relaxed shadow-sm ${
+            className={`p-4 rounded-2xl max-w-[85%] whitespace-pre-wrap text-[15px] leading-relaxed shadow-md transition ${
               msg.role === 'user'
                 ? 'bg-[#eae7e0] ml-auto text-right'
-                : 'bg-[#faf9f6] text-left border border-[#e5dfd2]'
+                : 'bg-[#faf9f6] text-left border border-[#e5dfd2] animate-pulse backdrop-blur-sm glow-sm'
             }`}
           >
             <strong className="block mb-1 text-sm text-gray-500">{msg.role === 'user' ? 'You' : 'Velvet'}:</strong>
-            {msg.content}
+            {msg.role === 'assistant' && i === messages.length - 1 && loading ? displayedAnswer : msg.content}
           </div>
         ))}
-        {loading && <div className="italic text-gray-400">Velvet is thinking…</div>}
+        {loading && <div className="italic text-gray-400 animate-pulse">Velvet is thinking…</div>}
       </div>
 
       <div className="mt-6">
@@ -94,7 +111,7 @@ export default function AskVelvet() {
         ></textarea>
         <button
           onClick={handleSubmit}
-          className="w-full mt-3 bg-[#222] text-white py-2.5 rounded-xl hover:bg-[#444] transition-all font-medium tracking-wide"
+          className="w-full mt-3 bg-[#222] text-white py-2.5 rounded-xl hover:bg-[#444] transition-all font-medium tracking-wide shadow-md hover:shadow-lg"
           disabled={loading}
         >
           {loading ? 'Thinking…' : 'Ask Velvet'}
@@ -103,3 +120,4 @@ export default function AskVelvet() {
     </div>
   );
 }
+
