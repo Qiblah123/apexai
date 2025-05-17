@@ -110,7 +110,7 @@ export default function AskVelvet() {
 
       <main className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-8 font-[Outfit] antialiased tracking-tight max-w-3xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2">Meet Velvet</h1>
-        <p className="text-center text-[#7a7a7a] mb-6">Your elegant AI curtain advisor</p>
+        <p className="text-center text-[#7a7a7a] mb-6">Ask Velvet the expert with over 20 years of curtain experience</p>
 
         <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-5">
           {/* Confirmed Messages */}
