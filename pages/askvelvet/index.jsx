@@ -137,10 +137,16 @@ export default function AskVelvet() {
           {pendingAnswer && (
             <div className="flex gap-3 justify-start">
               <div className="flex-shrink-0">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-r from-pink-400 to-purple-600 animate-pulse shadow-inner relative">
-                  <div className="absolute inset-0 bg-white/20 blur-md rounded-full" />
-                  <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-sm">V</span>
-                </div>
+              <div className="relative w-10 h-10">
+  {/* Glow behind */}
+  <div className="absolute inset-0 rounded-full bg-pink-400 blur-xl opacity-30 animate-pulse z-0"></div>
+
+  {/* Avatar face */}
+  <div className="relative z-10 w-full h-full rounded-full bg-gradient-to-r from-pink-500 to-purple-600 shadow-lg flex items-center justify-center text-white font-bold text-sm">
+    V
+  </div>
+</div>
+
               </div>
               <div className="p-4 rounded-2xl max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
                 <strong className="block mb-1 text-sm text-gray-500">Velvet:</strong>
