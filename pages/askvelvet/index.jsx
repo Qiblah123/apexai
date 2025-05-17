@@ -72,7 +72,7 @@ export default function AskVelvet() {
 
       typeOut(data.answer, () => {
         speak(data.answer);
-        setMessages((prev) => [...prev, { role: 'assistant', content: data.answer }]);
+        setMessages((prev) => [...prev, aiMessage]);
       });
     } catch (err) {
       const errorMsg = { role: 'assistant', content: "Sorry, I wasn’t able to respond just now." };
@@ -82,7 +82,7 @@ export default function AskVelvet() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-8 font-[Outfit] max-w-3xl mx-auto">
+    <div className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-8 font-[Outfit] antialiased tracking-tight max-w-3xl mx-auto">
       <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2">Meet Velvet</h1>
       <p className="text-center text-[#7a7a7a] mb-6">Your elegant AI curtain advisor</p>
 
@@ -90,24 +90,49 @@ export default function AskVelvet() {
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`p-4 rounded-2xl max-w-[85%] whitespace-pre-wrap text-[15px] leading-relaxed shadow-md transition ${
-              msg.role === 'user'
-                ? 'bg-[#eae7e0] ml-auto text-right'
-                : 'bg-[#faf9f6] text-left border border-[#e5dfd2] animate-pulse backdrop-blur-sm glow-sm'
-            }`}
+            className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
           >
-            <strong className="block mb-1 text-sm text-gray-500">{msg.role === 'user' ? 'You' : 'Velvet'}:</strong>
-            {msg.role === 'assistant' && i === messages.length - 1 && loading ? displayedAnswer : msg.content}
+            {msg.role === 'assistant' && (
+              <div className="flex-shrink-0">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-r from-pink-400 to-purple-600 animate-pulse shadow-inner relative">
+                  <div className="absolute inset-0 bg-white/20 blur-md rounded-full" />
+                  <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-sm">V</span>
+                </div>
+              </div>
+            )}
+
+            <div
+              className={`p-4 rounded-2xl max-w-[85%] whitespace-pre-wrap text-[15px] leading-relaxed shadow-md transition ${
+                msg.role === 'user'
+                  ? 'bg-[#eae7e0] ml-auto text-right'
+                  : 'bg-[#faf9f6] text-left border border-[#e5dfd2] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)]'
+              }`}
+            >
+              <strong className="block mb-1 text-sm text-gray-500">
+                {msg.role === 'user' ? 'You' : 'Velvet'}:
+              </strong>
+              {msg.role === 'assistant' && i === messages.length - 1 && loading
+                ? displayedAnswer
+                : msg.content}
+            </div>
           </div>
         ))}
-        {loading && <div className="italic text-gray-400 animate-pulse">Velvet is thinking…</div>}
+
+        {loading && (
+          <div className="flex items-center space-x-2 text-sm text-gray-400 mt-2 ml-2">
+            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
+            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100" />
+            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200" />
+            <span className="ml-2">Velvet is thinking…</span>
+          </div>
+        )}
       </div>
 
       <div className="mt-6">
         <textarea
           rows="2"
           className="w-full border border-[#ddd8d2] rounded-xl p-3 focus:outline-none focus:ring focus:border-[#c7bfae]"
-          placeholder="Ask something like: 'What’s the best blackout curtain for an apex window?'"
+          placeholder="Ask something like: 'What’s the best blackout curtain for a bedroom window?'"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
         ></textarea>
