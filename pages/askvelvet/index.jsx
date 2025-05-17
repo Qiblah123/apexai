@@ -8,19 +8,34 @@ export default function AskVelvet() {
 
   useEffect(() => {
     const loadVoices = () => {
-      const v = speechSynthesis.getVoices();
-      if (v.length) setVoices(v);
+      const availableVoices = speechSynthesis.getVoices();
+      if (availableVoices.length) setVoices(availableVoices);
     };
     loadVoices();
     window.speechSynthesis.onvoiceschanged = loadVoices;
   }, []);
 
   const speak = (text) => {
+    speechSynthesis.cancel();
     const velvetVoice = voices.find(v => v.name.includes("Google UK English Female")) || voices[0];
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.voice = velvetVoice;
-    utterance.lang = 'en-GB';
-    speechSynthesis.speak(utterance);
+    const chunks = text.match(/[^.!?]+[.!?]+/g) || [text];
+
+    let index = 0;
+    const speakNext = () => {
+      if (index >= chunks.length) return;
+      const utterance = new SpeechSynthesisUtterance(chunks[index].trim());
+      utterance.voice = velvetVoice;
+      utterance.lang = 'en-GB';
+      utterance.rate = 1;
+      utterance.pitch = 1.1;
+      utterance.onend = () => {
+        index++;
+        speakNext();
+      };
+      speechSynthesis.speak(utterance);
+    };
+
+    setTimeout(() => speakNext(), 100);
   };
 
   const handleSubmit = async () => {
