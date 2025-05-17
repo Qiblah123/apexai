@@ -70,8 +70,10 @@ export default function AskVelvet() {
       const data = await res.json();
       const aiMessage = { role: 'assistant', content: data.answer };
 
-      typeOut(data.answer, () => speak(data.answer));
-      setMessages((prev) => [...prev, aiMessage]);
+      typeOut(data.answer, () => {
+        speak(data.answer);
+        setMessages((prev) => [...prev, { role: 'assistant', content: data.answer }]);
+      });
     } catch (err) {
       const errorMsg = { role: 'assistant', content: "Sorry, I wasn’t able to respond just now." };
       setMessages((prev) => [...prev, errorMsg]);
@@ -120,4 +122,3 @@ export default function AskVelvet() {
     </div>
   );
 }
-
