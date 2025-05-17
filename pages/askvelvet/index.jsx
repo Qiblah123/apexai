@@ -48,7 +48,7 @@ export default function AskVelvet() {
       if (index <= text.length) {
         setDisplayedAnswer(text.slice(0, index));
         index++;
-        setTimeout(typing, 60);
+        setTimeout(typing, 60); // slower speed
       } else {
         callback();
       }
@@ -71,12 +71,12 @@ export default function AskVelvet() {
       });
       const data = await res.json();
 
-      setPendingAnswer(data.answer); // Store temporarily
+      setPendingAnswer(data.answer);
 
       typeOut(data.answer, () => {
         speak(data.answer);
         setMessages(prev => [...prev, { role: 'assistant', content: data.answer }]);
-        setPendingAnswer(null); // Clear after rendering
+        setPendingAnswer(null);
       });
 
     } catch (err) {
@@ -86,6 +86,15 @@ export default function AskVelvet() {
 
     setLoading(false);
   };
+
+  const VelvetAvatar = () => (
+    <div className="relative w-10 h-10 flex-shrink-0">
+      <div className="absolute inset-0 rounded-full bg-pink-400 opacity-40 blur-xl animate-pulse"></div>
+      <div className="relative z-10 w-full h-full rounded-full bg-gradient-to-r from-pink-500 to-purple-600 shadow-lg flex items-center justify-center text-white font-bold text-sm">
+        V
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -104,20 +113,12 @@ export default function AskVelvet() {
         <p className="text-center text-[#7a7a7a] mb-6">Your elegant AI curtain advisor</p>
 
         <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-5">
-          {/* Render all confirmed messages */}
           {messages.map((msg, i) => (
             <div
               key={i}
-              className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex gap-3 items-start ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              {msg.role === 'assistant' && (
-                <div className="flex-shrink-0">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-r from-pink-400 to-purple-600 animate-pulse shadow-inner relative">
-                    <div className="absolute inset-0 bg-white/20 blur-md rounded-full" />
-                    <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-sm">V</span>
-                  </div>
-                </div>
-              )}
+              {msg.role === 'assistant' && <VelvetAvatar />}
               <div
                 className={`p-4 rounded-2xl max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
                   msg.role === 'user'
@@ -133,21 +134,9 @@ export default function AskVelvet() {
             </div>
           ))}
 
-          {/* Typing assistant message (not in messages yet) */}
           {pendingAnswer && (
-            <div className="flex gap-3 justify-start">
-              <div className="flex-shrink-0">
-              <div className="relative w-10 h-10">
-  {/* Glow behind */}
-  <div className="absolute inset-0 rounded-full bg-pink-400 blur-xl opacity-30 animate-pulse z-0"></div>
-
-  {/* Avatar face */}
-  <div className="relative z-10 w-full h-full rounded-full bg-gradient-to-r from-pink-500 to-purple-600 shadow-lg flex items-center justify-center text-white font-bold text-sm">
-    V
-  </div>
-</div>
-
-              </div>
+            <div className="flex gap-3 items-start justify-start">
+              <VelvetAvatar />
               <div className="p-4 rounded-2xl max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
                 <strong className="block mb-1 text-sm text-gray-500">Velvet:</strong>
                 <span>
