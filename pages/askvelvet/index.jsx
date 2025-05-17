@@ -40,8 +40,8 @@ export default function AskVelvet() {
 
   const handleSubmit = async () => {
     if (!question.trim()) return;
-    const userMessage = { role: 'user', content: question };
-    setMessages([...messages, userMessage]);
+    const newMessages = [...messages, { role: 'user', content: question }];
+    setMessages(newMessages);
     setQuestion('');
     setLoading(true);
 
@@ -49,14 +49,14 @@ export default function AskVelvet() {
       const res = await fetch('/api/askvelvet', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question })
+        body: JSON.stringify({ messages: newMessages })
       });
       const data = await res.json();
-      const aiMessage = { role: 'velvet', content: data.answer };
+      const aiMessage = { role: 'assistant', content: data.answer };
       setMessages((prev) => [...prev, aiMessage]);
       speak(data.answer);
     } catch (err) {
-      const errorMsg = { role: 'velvet', content: "Sorry, I wasn’t able to respond just now." };
+      const errorMsg = { role: 'assistant', content: "Sorry, I wasn’t able to respond just now." };
       setMessages((prev) => [...prev, errorMsg]);
     }
     setLoading(false);
