@@ -89,7 +89,8 @@ export default function AskVelvet() {
 
   const VelvetAvatar = () => (
     <div className="relative w-10 h-10 flex-shrink-0 drop-shadow-md">
-      <div className="absolute inset-0 rounded-full bg-pink-400 opacity-40 blur-xl animate-pulse"></div>
+      <div className="absolute -inset-1 rounded-full border-2 border-pink-300 animate-ping opacity-20 z-0" />
+      <div className="absolute inset-0 rounded-full bg-pink-400 opacity-40 blur-xl animate-pulse z-0"></div>
       <div className="relative z-10 w-full h-full rounded-full bg-gradient-to-r from-pink-500 to-purple-600 shadow-lg flex items-center justify-center text-white font-bold text-sm">
         V
       </div>
@@ -109,9 +110,13 @@ export default function AskVelvet() {
       </Head>
 
       <main className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-10 font-[Outfit] antialiased tracking-tight flex justify-center">
-        <div className="w-full max-w-xl">
-          <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2">Meet Velvet</h1>
-          <p className="text-center text-[#7a7a7a] mb-6">Ask Velvet the expert with over 20 years of curtain experience</p>
+        <div className="w-full max-w-2xl">
+          <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2 animate-fade-in">
+            Meet Velvet
+          </h1>
+          <p className="text-center text-[#7a7a7a] italic mb-6 text-lg">
+            ✨ Curtain consultations, the Velvet way.
+          </p>
 
           <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-5">
             {messages.map((msg, i) => (
@@ -121,9 +126,9 @@ export default function AskVelvet() {
               >
                 {msg.role === 'assistant' && <VelvetAvatar />}
                 <div
-                  className={`p-4 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
+                  className={`p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
                     msg.role === 'user'
-                      ? 'bg-[#eae7e0] ml-auto text-right'
+                      ? 'bg-[#eae7e0] text-right self-end'
                       : 'bg-[#faf9f6] text-left border border-[#e5dfd2] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)]'
                   }`}
                 >
@@ -138,7 +143,7 @@ export default function AskVelvet() {
             {pendingAnswer && (
               <div className="flex items-start gap-2 justify-start">
                 <VelvetAvatar />
-                <div className="p-4 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
+                <div className="p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
                   <strong className="block mb-1 text-sm text-[#555] font-medium">Velvet:</strong>
                   <span>
                     {displayedAnswer}
@@ -179,4 +184,3 @@ export default function AskVelvet() {
     </>
   );
 }
-
