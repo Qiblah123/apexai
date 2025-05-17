@@ -7,6 +7,7 @@ export default function AskVelvet() {
   const [loading, setLoading] = useState(false);
   const [voices, setVoices] = useState([]);
   const [displayedAnswer, setDisplayedAnswer] = useState('');
+  const [isTyping, setIsTyping] = useState(false); // New flag
 
   useEffect(() => {
     const loadVoices = () => {
@@ -42,6 +43,7 @@ export default function AskVelvet() {
 
   const typeOut = (text, callback) => {
     setDisplayedAnswer('');
+    setIsTyping(true);
     let index = 0;
     const typing = () => {
       if (index <= text.length) {
@@ -49,6 +51,7 @@ export default function AskVelvet() {
         index++;
         setTimeout(typing, 15); // typing speed
       } else {
+        setIsTyping(false);
         callback();
       }
     };
@@ -125,7 +128,7 @@ export default function AskVelvet() {
                 </strong>
 
                 <div>
-                  {msg.role === 'assistant' && i === messages.length - 1 && loading ? (
+                  {msg.role === 'assistant' && i === messages.length && isTyping ? (
                     <span>
                       {displayedAnswer}
                       <span className="inline-block w-[1px] h-5 bg-[#555] animate-pulse ml-0.5 align-middle" />
