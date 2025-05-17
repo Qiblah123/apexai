@@ -26,7 +26,6 @@ Customer: ${question}
 Velvet:
 `
 
-
   try {
     const response = await fetch('https://api.openai.com/v1/completions', {
       method: 'POST',
@@ -37,17 +36,25 @@ Velvet:
       body: JSON.stringify({
         model: 'text-davinci-003',
         prompt,
-        max_tokens: 200,
+        max_tokens: 300,
         temperature: 0.7,
         stop: ['Customer:', 'Velvet:']
       })
     })
 
     const data = await response.json()
-    const answer = data.choices?.[0]?.text?.trim() || "I'm not sure, but I'd be happy to help further."
+    console.log("OpenAI Raw Response:", data)
+
+    const answer = data.choices?.[0]?.text?.trim()
+
+    if (!answer) {
+      return res.status(500).json({ error: 'OpenAI returned no answer.' })
+    }
 
     res.status(200).json({ answer })
+
   } catch (error) {
+    console.error("API Error:", error)
     res.status(500).json({ error: 'Failed to fetch response from OpenAI' })
   }
 }
