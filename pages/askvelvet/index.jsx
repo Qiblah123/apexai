@@ -1,12 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function AskVelvet() {
   const [question, setQuestion] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [voices, setVoices] = useState([]);
+
+  useEffect(() => {
+    const loadVoices = () => {
+      const v = speechSynthesis.getVoices();
+      if (v.length) setVoices(v);
+    };
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }, []);
 
   const speak = (text) => {
+    const velvetVoice = voices.find(v => v.name.includes("Google UK English Female")) || voices[0];
     const utterance = new SpeechSynthesisUtterance(text);
+    utterance.voice = velvetVoice;
     utterance.lang = 'en-GB';
     speechSynthesis.speak(utterance);
   };
@@ -36,38 +48,41 @@ export default function AskVelvet() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black p-4 max-w-2xl mx-auto font-sans">
-      <h1 className="text-3xl font-bold text-center mb-1">Meet Velvet</h1>
-      <p className="text-center text-gray-600 mb-6">Your luxury AI curtain advisor — here to guide you 24/7.</p>
+    <div className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-8 font-[Outfit] max-w-3xl mx-auto">
+      <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2">Meet Velvet</h1>
+      <p className="text-center text-[#7a7a7a] mb-6">Your elegant AI curtain advisor</p>
 
-      <div className="border rounded-md p-4 h-[400px] overflow-y-auto space-y-4 bg-gray-50">
+      <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-5">
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`p-3 rounded-xl max-w-[85%] whitespace-pre-wrap ${
-              msg.role === 'user' ? 'bg-indigo-100 ml-auto text-right' : 'bg-white border text-left'
+            className={`p-4 rounded-2xl max-w-[85%] whitespace-pre-wrap text-[15px] leading-relaxed shadow-sm ${
+              msg.role === 'user'
+                ? 'bg-[#eae7e0] ml-auto text-right'
+                : 'bg-[#faf9f6] text-left border border-[#e5dfd2]'
             }`}
           >
-            <strong>{msg.role === 'user' ? 'You' : 'Velvet'}:</strong> {msg.content}
+            <strong className="block mb-1 text-sm text-gray-500">{msg.role === 'user' ? 'You' : 'Velvet'}:</strong>
+            {msg.content}
           </div>
         ))}
-        {loading && <div className="text-gray-400 italic">Velvet is thinking...</div>}
+        {loading && <div className="italic text-gray-400">Velvet is thinking…</div>}
       </div>
 
       <div className="mt-6">
         <textarea
           rows="2"
-          className="w-full border rounded-md p-2 focus:outline-none focus:ring focus:border-indigo-400"
-          placeholder="Ask something like: 'What’s the best blackout fabric for a loft bedroom?'"
+          className="w-full border border-[#ddd8d2] rounded-xl p-3 focus:outline-none focus:ring focus:border-[#c7bfae]"
+          placeholder="Ask something like: 'What’s the best blackout curtain for an apex window?'"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
         ></textarea>
         <button
           onClick={handleSubmit}
-          className="w-full mt-2 bg-black text-white py-2 rounded-md hover:bg-gray-800 transition"
+          className="w-full mt-3 bg-[#222] text-white py-2.5 rounded-xl hover:bg-[#444] transition-all font-medium tracking-wide"
           disabled={loading}
         >
-          {loading ? 'Thinking...' : 'Ask Velvet'}
+          {loading ? 'Thinking…' : 'Ask Velvet'}
         </button>
       </div>
     </div>
