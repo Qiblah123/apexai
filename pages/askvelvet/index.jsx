@@ -48,7 +48,7 @@ export default function AskVelvet() {
       if (index <= text.length) {
         setDisplayedAnswer(text.slice(0, index));
         index++;
-        setTimeout(typing, 60); // Adjust speed here
+        setTimeout(typing, 60);
       } else {
         callback();
       }
@@ -88,7 +88,7 @@ export default function AskVelvet() {
   };
 
   const VelvetAvatar = () => (
-    <div className="relative w-10 h-10 flex-shrink-0">
+    <div className="relative w-10 h-10 flex-shrink-0 drop-shadow-md">
       <div className="absolute inset-0 rounded-full bg-pink-400 opacity-40 blur-xl animate-pulse"></div>
       <div className="relative z-10 w-full h-full rounded-full bg-gradient-to-r from-pink-500 to-purple-600 shadow-lg flex items-center justify-center text-white font-bold text-sm">
         V
@@ -100,7 +100,7 @@ export default function AskVelvet() {
     <>
       <Head>
         <title>Velvet – Curtain Advisor</title>
-        <meta name="description" content="Ask Velvet your elegant curtain expert with over 20 years of curtain experience" />
+        <meta name="description" content="Ask Velvet your elegant AI curtain expert" />
         <link rel="icon" href="/favicon.ico" />
         <link
           href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&display=swap"
@@ -108,75 +108,75 @@ export default function AskVelvet() {
         />
       </Head>
 
-      <main className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-8 font-[Outfit] antialiased tracking-tight max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2">Meet Velvet</h1>
-        <p className="text-center text-[#7a7a7a] mb-6">Ask Velvet the expert with over 20 years of curtain experience</p>
+      <main className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-10 font-[Outfit] antialiased tracking-tight flex justify-center">
+        <div className="w-full max-w-xl">
+          <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2">Meet Velvet</h1>
+          <p className="text-center text-[#7a7a7a] mb-6">Ask Velvet the expert with over 20 years of curtain experience</p>
 
-        <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-5">
-          {/* Confirmed Messages */}
-          {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
-              {msg.role === 'assistant' && <VelvetAvatar />}
+          <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-5">
+            {messages.map((msg, i) => (
               <div
-                className={`p-4 rounded-2xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
-                  msg.role === 'user'
-                    ? 'bg-[#eae7e0] ml-auto text-right'
-                    : 'bg-[#faf9f6] text-left border border-[#e5dfd2] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)]'
-                }`}
+                key={i}
+                className={`flex items-start gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                <strong className="block mb-1 text-sm text-gray-500">
-                  {msg.role === 'user' ? 'You' : 'Velvet'}:
-                </strong>
-                <div>{msg.content}</div>
+                {msg.role === 'assistant' && <VelvetAvatar />}
+                <div
+                  className={`p-4 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
+                    msg.role === 'user'
+                      ? 'bg-[#eae7e0] ml-auto text-right'
+                      : 'bg-[#faf9f6] text-left border border-[#e5dfd2] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)]'
+                  }`}
+                >
+                  <strong className="block mb-1 text-sm text-[#555] font-medium">
+                    {msg.role === 'user' ? 'You' : 'Velvet'}:
+                  </strong>
+                  <div>{msg.content}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-          {/* Typing Message */}
-          {pendingAnswer && (
-            <div className="flex items-start gap-3 justify-start">
-              <VelvetAvatar />
-              <div className="p-4 rounded-2xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
-                <strong className="block mb-1 text-sm text-gray-500">Velvet:</strong>
-                <span>
-                  {displayedAnswer}
-                  <span className="inline-block w-[1px] h-5 bg-[#555] animate-pulse ml-0.5 align-middle" />
-                </span>
+            {pendingAnswer && (
+              <div className="flex items-start gap-2 justify-start">
+                <VelvetAvatar />
+                <div className="p-4 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
+                  <strong className="block mb-1 text-sm text-[#555] font-medium">Velvet:</strong>
+                  <span>
+                    {displayedAnswer}
+                    <span className="inline-block w-[1px] h-5 bg-[#555] animate-pulse ml-0.5 align-middle" />
+                  </span>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {/* Thinking animation */}
-          {loading && (
-            <div className="flex items-center space-x-2 text-sm text-gray-400 mt-2 ml-2">
-              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100" />
-              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200" />
-              <span className="ml-2">Velvet is thinking…</span>
-            </div>
-          )}
-        </div>
+            {loading && (
+              <div className="flex items-center space-x-2 text-sm text-gray-400 mt-2 ml-2">
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100" />
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200" />
+                <span className="ml-2">Velvet is thinking…</span>
+              </div>
+            )}
+          </div>
 
-        <div className="mt-6">
-          <textarea
-            rows="2"
-            className="w-full border border-[#ddd8d2] rounded-xl p-3 focus:outline-none focus:ring focus:border-[#c7bfae]"
-            placeholder="Ask something like: 'What’s the best blackout curtain for a bedroom window?'"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-          ></textarea>
-          <button
-            onClick={handleSubmit}
-            className="w-full mt-3 bg-[#222] text-white py-2.5 rounded-xl hover:bg-[#444] transition-all font-medium tracking-wide shadow-md hover:shadow-lg"
-            disabled={loading}
-          >
-            {loading ? 'Thinking…' : 'Ask Velvet'}
-          </button>
+          <div className="mt-6">
+            <textarea
+              rows="2"
+              className="w-full border border-[#ddd8d2] rounded-xl p-3 focus:outline-none focus:ring focus:border-[#c7bfae]"
+              placeholder="Ask something like: 'What’s the best blackout curtain for a bedroom window?'"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+            ></textarea>
+            <button
+              onClick={handleSubmit}
+              className="w-full mt-3 bg-[#222] text-white py-2.5 rounded-xl hover:bg-[#444] transition-all font-medium tracking-wide shadow-md hover:shadow-lg"
+              disabled={loading}
+            >
+              {loading ? 'Thinking…' : 'Ask Velvet'}
+            </button>
+          </div>
         </div>
       </main>
     </>
   );
 }
+
