@@ -48,7 +48,7 @@ export default function AskVelvet() {
       if (index <= text.length) {
         setDisplayedAnswer(text.slice(0, index));
         index++;
-        setTimeout(typing, 15);
+        setTimeout(typing, 60);
       } else {
         callback();
       }
