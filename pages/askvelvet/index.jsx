@@ -48,7 +48,7 @@ export default function AskVelvet() {
       if (index <= text.length) {
         setDisplayedAnswer(text.slice(0, index));
         index++;
-        setTimeout(typing, 60); // slower speed
+        setTimeout(typing, 60); // Adjust speed here
       } else {
         callback();
       }
@@ -100,7 +100,7 @@ export default function AskVelvet() {
     <>
       <Head>
         <title>Velvet – Curtain Advisor</title>
-        <meta name="description" content="Ask Velvet your elegant AI curtain expert" />
+        <meta name="description" content="Ask Velvet your elegant curtain expert with over 20 years of curtain experience" />
         <link rel="icon" href="/favicon.ico" />
         <link
           href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&display=swap"
@@ -113,14 +113,15 @@ export default function AskVelvet() {
         <p className="text-center text-[#7a7a7a] mb-6">Your elegant AI curtain advisor</p>
 
         <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-5">
+          {/* Confirmed Messages */}
           {messages.map((msg, i) => (
             <div
               key={i}
-              className={`flex gap-3 items-start ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {msg.role === 'assistant' && <VelvetAvatar />}
               <div
-                className={`p-4 rounded-2xl max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
+                className={`p-4 rounded-2xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
                   msg.role === 'user'
                     ? 'bg-[#eae7e0] ml-auto text-right'
                     : 'bg-[#faf9f6] text-left border border-[#e5dfd2] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)]'
@@ -134,10 +135,11 @@ export default function AskVelvet() {
             </div>
           ))}
 
+          {/* Typing Message */}
           {pendingAnswer && (
-            <div className="flex gap-3 items-start justify-start">
+            <div className="flex items-start gap-3 justify-start">
               <VelvetAvatar />
-              <div className="p-4 rounded-2xl max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
+              <div className="p-4 rounded-2xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
                 <strong className="block mb-1 text-sm text-gray-500">Velvet:</strong>
                 <span>
                   {displayedAnswer}
@@ -147,6 +149,7 @@ export default function AskVelvet() {
             </div>
           )}
 
+          {/* Thinking animation */}
           {loading && (
             <div className="flex items-center space-x-2 text-sm text-gray-400 mt-2 ml-2">
               <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
