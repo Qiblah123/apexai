@@ -7,7 +7,7 @@ export default function AskVelvet() {
   const [loading, setLoading] = useState(false);
   const [voices, setVoices] = useState([]);
   const [displayedAnswer, setDisplayedAnswer] = useState('');
-  const [isTyping, setIsTyping] = useState(false); // New flag
+  const [pendingAnswer, setPendingAnswer] = useState(null);
 
   useEffect(() => {
     const loadVoices = () => {
@@ -43,15 +43,13 @@ export default function AskVelvet() {
 
   const typeOut = (text, callback) => {
     setDisplayedAnswer('');
-    setIsTyping(true);
     let index = 0;
     const typing = () => {
       if (index <= text.length) {
         setDisplayedAnswer(text.slice(0, index));
         index++;
-        setTimeout(typing, 15); // typing speed
+        setTimeout(typing, 15);
       } else {
-        setIsTyping(false);
         callback();
       }
     };
@@ -72,16 +70,20 @@ export default function AskVelvet() {
         body: JSON.stringify({ messages: newMessages })
       });
       const data = await res.json();
-      const aiMessage = { role: 'assistant', content: data.answer };
+
+      setPendingAnswer(data.answer); // Store temporarily
 
       typeOut(data.answer, () => {
         speak(data.answer);
-        setMessages((prev) => [...prev, aiMessage]);
+        setMessages(prev => [...prev, { role: 'assistant', content: data.answer }]);
+        setPendingAnswer(null); // Clear after rendering
       });
+
     } catch (err) {
       const errorMsg = { role: 'assistant', content: "Sorry, I wasn’t able to respond just now." };
-      setMessages((prev) => [...prev, errorMsg]);
+      setMessages(prev => [...prev, errorMsg]);
     }
+
     setLoading(false);
   };
 
@@ -102,6 +104,7 @@ export default function AskVelvet() {
         <p className="text-center text-[#7a7a7a] mb-6">Your elegant AI curtain advisor</p>
 
         <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-5">
+          {/* Render all confirmed messages */}
           {messages.map((msg, i) => (
             <div
               key={i}
@@ -115,7 +118,6 @@ export default function AskVelvet() {
                   </div>
                 </div>
               )}
-
               <div
                 className={`p-4 rounded-2xl max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
                   msg.role === 'user'
@@ -126,20 +128,29 @@ export default function AskVelvet() {
                 <strong className="block mb-1 text-sm text-gray-500">
                   {msg.role === 'user' ? 'You' : 'Velvet'}:
                 </strong>
-
-                <div>
-                  {msg.role === 'assistant' && i === messages.length && isTyping ? (
-                    <span>
-                      {displayedAnswer}
-                      <span className="inline-block w-[1px] h-5 bg-[#555] animate-pulse ml-0.5 align-middle" />
-                    </span>
-                  ) : (
-                    msg.content
-                  )}
-                </div>
+                <div>{msg.content}</div>
               </div>
             </div>
           ))}
+
+          {/* Typing assistant message (not in messages yet) */}
+          {pendingAnswer && (
+            <div className="flex gap-3 justify-start">
+              <div className="flex-shrink-0">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-r from-pink-400 to-purple-600 animate-pulse shadow-inner relative">
+                  <div className="absolute inset-0 bg-white/20 blur-md rounded-full" />
+                  <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-sm">V</span>
+                </div>
+              </div>
+              <div className="p-4 rounded-2xl max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
+                <strong className="block mb-1 text-sm text-gray-500">Velvet:</strong>
+                <span>
+                  {displayedAnswer}
+                  <span className="inline-block w-[1px] h-5 bg-[#555] animate-pulse ml-0.5 align-middle" />
+                </span>
+              </div>
+            </div>
+          )}
 
           {loading && (
             <div className="flex items-center space-x-2 text-sm text-gray-400 mt-2 ml-2">
