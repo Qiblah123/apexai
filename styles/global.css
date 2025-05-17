@@ -1,4 +1,11 @@
-/* styles/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&display=swap');
+
+/* Apply it globally */
+body {
+  font-family: 'Outfit', sans-serif;
+}
