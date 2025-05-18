@@ -110,7 +110,7 @@ export default function AskVelvet() {
       </Head>
 
       <main className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-10 font-[Outfit] antialiased tracking-tight flex justify-center">
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-xl">
           <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2 animate-fade-in">
             Meet Velvet
           </h1>
@@ -122,9 +122,14 @@ export default function AskVelvet() {
             {messages.map((msg, i) => (
               <div
                 key={i}
-                className={`flex items-start gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                className={`flex gap-3 items-start ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                {msg.role === 'assistant' && <VelvetAvatar />}
+                {msg.role === 'assistant' && (
+                  <div className="flex-shrink-0">
+                    <VelvetAvatar />
+                  </div>
+                )}
+
                 <div
                   className={`p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
                     msg.role === 'user'
@@ -141,8 +146,10 @@ export default function AskVelvet() {
             ))}
 
             {pendingAnswer && (
-              <div className="flex items-start gap-2 justify-start">
-                <VelvetAvatar />
+              <div className="flex gap-3 items-start justify-start">
+                <div className="flex-shrink-0">
+                  <VelvetAvatar />
+                </div>
                 <div className="p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
                   <strong className="block mb-1 text-sm text-[#555] font-medium">Velvet:</strong>
                   <span>
@@ -151,7 +158,7 @@ export default function AskVelvet() {
                   </span>
                 </div>
               </div>
-            )}
+            ))}
 
             {loading && (
               <div className="flex items-center space-x-2 text-sm text-gray-400 mt-2 ml-2">
