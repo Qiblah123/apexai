@@ -10,24 +10,33 @@ export default function AskVelvet() {
   const [pendingAnswer, setPendingAnswer] = useState(null);
 
   useEffect(() => {
-    const loadVoices = () => {
-      const availableVoices = speechSynthesis.getVoices();
-      if (availableVoices.length) setVoices(availableVoices);
-    };
-    loadVoices();
-    window.speechSynthesis.onvoiceschanged = loadVoices;
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      const loadVoices = () => {
+        const availableVoices = window.speechSynthesis.getVoices();
+        if (availableVoices && availableVoices.length) {
+          setVoices(availableVoices);
+        }
+      };
+
+      if (window.speechSynthesis.getVoices().length > 0) {
+        loadVoices();
+      } else {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+      }
+    }
   }, []);
 
   const speak = (text) => {
-    speechSynthesis.cancel();
-    const velvetVoice = voices.find(v => v.name.includes("Google UK English Female")) || voices[0];
+    if (typeof window === 'undefined' || !window.speechSynthesis || voices.length === 0) return;
+    window.speechSynthesis.cancel();
+    const velvetVoice = voices.find(v => v?.name?.includes("Google UK English Female")) || voices[0] || null;
     const chunks = text.match(/[^.!?]+[.!?]+/g) || [text];
 
     let index = 0;
     const speakNext = () => {
       if (index >= chunks.length) return;
       const utterance = new SpeechSynthesisUtterance(chunks[index].trim());
-      utterance.voice = velvetVoice;
+      if (velvetVoice) utterance.voice = velvetVoice;
       utterance.lang = 'en-GB';
       utterance.rate = 1;
       utterance.pitch = 1.1;
@@ -35,7 +44,7 @@ export default function AskVelvet() {
         index++;
         speakNext();
       };
-      speechSynthesis.speak(utterance);
+      window.speechSynthesis.speak(utterance);
     };
 
     setTimeout(() => speakNext(), 100);
@@ -110,8 +119,7 @@ export default function AskVelvet() {
       </Head>
 
       <main className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-10 font-[Outfit] antialiased tracking-tight flex justify-center">
-      <div className="w-full max-w-xl px-2 sm:px-0">
-
+        <div className="w-full max-w-xl px-2 sm:px-0">
           <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2 animate-fade-in">
             Meet Velvet
           </h1>
@@ -126,7 +134,7 @@ export default function AskVelvet() {
                 className={`flex gap-3 items-start ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.role === 'assistant' && (
-                  <div className="flex-shrink-0">
+                  <div className="flex-shrink-0 pt-1">
                     <VelvetAvatar />
                   </div>
                 )}
@@ -134,7 +142,7 @@ export default function AskVelvet() {
                 <div
                   className={`p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
                     msg.role === 'user'
-                      ? 'bg-[#eae7e0] text-left self-end'
+                      ? 'bg-[#eae7e0] text-right self-end ml-auto'
                       : 'bg-[#faf9f6] text-left border border-[#e5dfd2] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)]'
                   }`}
                 >
@@ -148,7 +156,7 @@ export default function AskVelvet() {
 
             {pendingAnswer && (
               <div className="flex gap-3 items-start justify-start">
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 pt-1">
                   <VelvetAvatar />
                 </div>
                 <div className="p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
