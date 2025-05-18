@@ -130,8 +130,8 @@ export default function AskVelvet() {
               <div className="h-full bg-pink-500 animate-pulse" style={{ width: '100%' }} />
             </div>
           )}
-<div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-6">
 
+          <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-6">
             {messages.map((msg, i) => (
               <div
                 key={i}
@@ -158,8 +158,8 @@ export default function AskVelvet() {
                 <div className="p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
                   <strong className="block mb-1 text-sm text-[#555] font-medium">Velvet:</strong>
                   <span>
-                    {displayedAnswer}<span className="inline-block w-[1px] h-5 bg-[#555] animate-pulse ml-0.5 align-middle"></span>
-
+                    {displayedAnswer}
+                    <span className="inline-block w-[1px] h-5 bg-[#555] animate-pulse ml-0.5 align-middle"></span>
                   </span>
                 </div>
               </div>
@@ -196,4 +196,3 @@ export default function AskVelvet() {
     </>
   );
 }
-
