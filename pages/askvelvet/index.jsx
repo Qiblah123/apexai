@@ -158,7 +158,7 @@ export default function AskVelvet() {
                   </span>
                 </div>
               </div>
-            ))}
+            )}
 
             {loading && (
               <div className="flex items-center space-x-2 text-sm text-gray-400 mt-2 ml-2">
@@ -191,3 +191,4 @@ export default function AskVelvet() {
     </>
   );
 }
+
