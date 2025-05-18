@@ -1,201 +1,32 @@
 import Head from 'next/head';
-import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
-export default function AskVelvet() {
-  const [question, setQuestion] = useState('');
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [voices, setVoices] = useState([]);
-  const [displayedAnswer, setDisplayedAnswer] = useState('');
-  const [pendingAnswer, setPendingAnswer] = useState(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.speechSynthesis) {
-      const loadVoices = () => {
-        const availableVoices = window.speechSynthesis.getVoices();
-        if (availableVoices && availableVoices.length) {
-          setVoices(availableVoices);
-        }
-      };
-
-      if (window.speechSynthesis.getVoices().length > 0) {
-        loadVoices();
-      } else {
-        window.speechSynthesis.onvoiceschanged = loadVoices;
-      }
-    }
-  }, []);
-
-  const speak = (text) => {
-    if (typeof window === 'undefined' || !window.speechSynthesis || voices.length === 0) return;
-    window.speechSynthesis.cancel();
-    const velvetVoice = voices.find(v => v?.name?.includes("Google UK English Female")) || voices[0] || null;
-    const chunks = text.match(/[^.!?]+[.!?]+/g) || [text];
-
-    let index = 0;
-    const speakNext = () => {
-      if (index >= chunks.length) return;
-      const utterance = new SpeechSynthesisUtterance(chunks[index].trim());
-      if (velvetVoice) utterance.voice = velvetVoice;
-      utterance.lang = 'en-GB';
-      utterance.rate = 1;
-      utterance.pitch = 1.1;
-      utterance.onend = () => {
-        index++;
-        speakNext();
-      };
-      window.speechSynthesis.speak(utterance);
-    };
-
-    setTimeout(() => speakNext(), 100);
-  };
-
-  const typeOut = (text, callback) => {
-    setDisplayedAnswer('');
-    let index = 0;
-    const typing = () => {
-      if (index <= text.length) {
-        setDisplayedAnswer(text.slice(0, index));
-        index++;
-        setTimeout(typing, 60);
-      } else {
-        callback();
-      }
-    };
-    typing();
-  };
-
-  const handleSubmit = async () => {
-    if (!question.trim()) return;
-    const newMessages = [...messages, { role: 'user', content: question }];
-    setMessages(newMessages);
-    setQuestion('');
-    setLoading(true);
-
-    try {
-      const res = await fetch('/api/askvelvet', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages })
-      });
-      const data = await res.json();
-
-      setPendingAnswer(data.answer);
-
-      typeOut(data.answer, () => {
-        speak(data.answer);
-        setMessages(prev => [...prev, { role: 'assistant', content: data.answer }]);
-        setPendingAnswer(null);
-      });
-
-    } catch (err) {
-      const errorMsg = { role: 'assistant', content: "Sorry, I wasn’t able to respond just now." };
-      setMessages(prev => [...prev, errorMsg]);
-    }
-
-    setLoading(false);
-  };
-
-  const VelvetAvatar = () => (
-    <div className="relative w-10 h-10 flex-shrink-0 drop-shadow-md">
-      <div className="absolute -inset-1 rounded-full border-2 border-pink-300 animate-ping opacity-20 z-0" />
-      <div className="absolute inset-0 rounded-full bg-pink-400 opacity-40 blur-xl animate-pulse z-0"></div>
-      <div className="relative z-10 w-full h-full rounded-full bg-gradient-to-r from-pink-500 to-purple-600 shadow-lg flex items-center justify-center text-white font-bold text-sm">
-        V
-      </div>
-    </div>
-  );
-
+export default function Home() {
   return (
     <>
       <Head>
-        <title>Velvet – Curtain Advisor</title>
-        <meta name="description" content="Ask Velvet your elegant AI curtain expert" />
+        <title>Welcome to Velvet AI</title>
+        <meta name="description" content="Elegant AI curtain advisor" />
         <link rel="icon" href="/favicon.ico" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&display=swap"
-          rel="stylesheet"
-        />
       </Head>
 
-      <main className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-10 font-[Outfit] antialiased tracking-tight flex justify-center">
-        <div className="w-full max-w-xl px-2 sm:px-0">
-          <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2 animate-fade-in">
-            Meet Velvet
-          </h1>
-          <p className="text-center text-[#7a7a7a] italic mb-6 text-lg">
-            ✨ Curtain consultations, the Velvet way.
-          </p>
+      <main className="min-h-screen bg-gradient-to-b from-[#fdfaf6] to-[#f8f4ee] flex flex-col items-center justify-center text-center px-4 py-20 font-[Outfit] relative overflow-hidden">
+        {/* Sparkles background */}
+        <div className="absolute inset-0 bg-[url('/sparkles.svg')] bg-cover bg-center opacity-10 pointer-events-none animate-pulse" />
 
-          <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-5">
-            {messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`flex gap-3 items-start ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                {msg.role === 'assistant' && (
-                  <div className="flex-shrink-0 pt-1">
-                    <VelvetAvatar />
-                  </div>
-                )}
+        {/* Floating curtain motif */}
+        <div className="absolute top-0 left-0 w-64 h-64 bg-[url('/curtain-motif.svg')] bg-no-repeat bg-contain opacity-20 animate-float pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-[url('/curtain-motif.svg')] bg-no-repeat bg-contain opacity-20 animate-float pointer-events-none" />
 
-                <div
-                  className={`p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
-                    msg.role === 'user'
-                      ? 'bg-[#eae7e0] text-right self-end ml-auto'
-                      : 'bg-[#faf9f6] text-left border border-[#e5dfd2] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)]'
-                  }`}
-                >
-                  <strong className="block mb-1 text-sm text-[#555] font-medium">
-                    {msg.role === 'user' ? 'You' : 'Velvet'}:
-                  </strong>
-                  <div>{msg.content}</div>
-                </div>
-              </div>
-            ))}
-
-            {pendingAnswer && (
-              <div className="flex gap-3 items-start justify-start">
-                <div className="flex-shrink-0 pt-1">
-                  <VelvetAvatar />
-                </div>
-                <div className="p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
-                  <strong className="block mb-1 text-sm text-[#555] font-medium">Velvet:</strong>
-                  <span>
-                    {displayedAnswer}
-                    <span className="inline-block w-[1px] h-5 bg-[#555] animate-pulse ml-0.5 align-middle" />
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {loading && (
-              <div className="flex items-center space-x-2 text-sm text-gray-400 mt-2 ml-2">
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100" />
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200" />
-                <span className="ml-2">Velvet is thinking…</span>
-              </div>
-            )}
-          </div>
-
-          <div className="mt-6">
-            <textarea
-              rows="2"
-              className="w-full border border-[#ddd8d2] rounded-xl p-3 focus:outline-none focus:ring focus:border-[#c7bfae]"
-              placeholder="Ask something like: 'What’s the best blackout curtain for a bedroom window?'"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-            ></textarea>
-            <button
-              onClick={handleSubmit}
-              className="w-full mt-3 bg-[#222] text-white py-2.5 rounded-xl hover:bg-[#444] transition-all font-medium tracking-wide shadow-md hover:shadow-lg"
-              disabled={loading}
-            >
-              {loading ? 'Thinking…' : 'Ask Velvet'}
-            </button>
-          </div>
-        </div>
+        <h1 className="text-5xl sm:text-6xl font-bold text-[#2c2c2c] mb-4 animate-fade-in">
+          Welcome to <span className="text-pink-600">Velvet AI</span> ✨
+        </h1>
+        <p className="text-lg text-[#666] mb-8 max-w-xl animate-fade-in delay-150">
+          Your stylish assistant for expert curtain advice. Powered by voice, elegance, and experience.
+        </p>
+        <Link href="/askvelvet" className="text-white bg-pink-500 hover:bg-pink-600 transition px-6 py-3 rounded-xl font-medium shadow-md animate-fade-in delay-300">
+          Try Velvet Now
+        </Link>
       </main>
     </>
   );
