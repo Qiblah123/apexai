@@ -110,7 +110,8 @@ export default function AskVelvet() {
       </Head>
 
       <main className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-10 font-[Outfit] antialiased tracking-tight flex justify-center">
-        <div className="w-full max-w-xl">
+      <div className="w-full max-w-xl px-2 sm:px-0">
+
           <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2 animate-fade-in">
             Meet Velvet
           </h1>
@@ -133,7 +134,7 @@ export default function AskVelvet() {
                 <div
                   className={`p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
                     msg.role === 'user'
-                      ? 'bg-[#eae7e0] text-right self-end'
+                      ? 'bg-[#eae7e0] text-left self-end'
                       : 'bg-[#faf9f6] text-left border border-[#e5dfd2] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)]'
                   }`}
                 >
