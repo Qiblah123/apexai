@@ -1,4 +1,3 @@
-
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 
@@ -154,17 +153,17 @@ export default function AskVelvet() {
             ))}
 
             {pendingAnswer && (
-              <div className="flex items-start gap-2 justify-start">
-                <VelvetAvatar />
-                <div className="p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
-                  <strong className="block mb-1 text-sm text-[#555] font-medium">Velvet:</strong>
-                  <span>
-                    {displayedAnswer}
-                    <span className="inline-block w-[1px] h-5 bg-[#555] animate-pulse ml-0.5 align-middle"></span>
-                  </span>
-                </div>
-              </div>
-            ))}
+  <div className="flex items-start gap-2 justify-start">
+    <VelvetAvatar />
+    <div className="p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
+      <strong className="block mb-1 text-sm text-[#555] font-medium">Velvet:</strong>
+      <span>
+        {displayedAnswer}
+        <span className="inline-block w-[1px] h-5 bg-[#555] animate-pulse ml-0.5 align-middle"></span>
+      </span>
+    </div>
+  </div>
+)}
 
             {loading && (
               <div className="flex items-center space-x-2 text-sm text-gray-400 mt-2 ml-2">
