@@ -8,6 +8,7 @@ export default function AskVelvet() {
   const [voices, setVoices] = useState([]);
   const [displayedAnswer, setDisplayedAnswer] = useState('');
   const [pendingAnswer, setPendingAnswer] = useState(null);
+  const [showBar, setShowBar] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.speechSynthesis) {
@@ -66,6 +67,7 @@ export default function AskVelvet() {
     setMessages(newMessages);
     setQuestion('');
     setLoading(true);
+    setShowBar(true);
 
     try {
       const res = await fetch('/api/askvelvet', {
@@ -89,6 +91,7 @@ export default function AskVelvet() {
     }
 
     setLoading(false);
+    setShowBar(false);
   };
 
   const VelvetAvatar = () => (
@@ -114,13 +117,19 @@ export default function AskVelvet() {
       </Head>
 
       <main className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-10 font-[Outfit] antialiased tracking-tight flex justify-center">
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-2xl bg-white shadow-xl rounded-3xl px-6 py-8 border border-[#f2e6df] ring-2 ring-pink-100 ring-offset-2 ring-offset-[#fdfaf6]">
           <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2 animate-fade-in">
             Meet Velvet
           </h1>
           <p className="text-center text-[#7a7a7a] italic mb-6 text-lg">
             ✨ Curtain consultations, the Velvet way.
           </p>
+
+          {showBar && (
+            <div className="w-full bg-pink-200 h-1.5 rounded-full overflow-hidden mb-4">
+              <div className="h-full bg-pink-500 animate-pulse" style={{ width: '100%' }} />
+            </div>
+          )}
 
           <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-5">
             {messages.map((msg, i) => (
@@ -131,8 +140,7 @@ export default function AskVelvet() {
                 {msg.role === 'assistant' && <VelvetAvatar />}
                 <div
                   className={`p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
-                    msg.role === 'user'
-                      ? 'bg-[#eae7e0] text-right self-end'
+                    msg.role === 'user' ? 'bg-[#eae7e0] text-left ml-auto'
                       : 'bg-[#faf9f6] text-left border border-[#e5dfd2] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)]'
                   }`}
                 >
@@ -155,7 +163,7 @@ export default function AskVelvet() {
                   </span>
                 </div>
               </div>
-            )}
+            ))}
 
             {loading && (
               <div className="flex items-center space-x-2 text-sm text-gray-400 mt-2 ml-2">
@@ -188,3 +196,4 @@ export default function AskVelvet() {
     </>
   );
 }
+
