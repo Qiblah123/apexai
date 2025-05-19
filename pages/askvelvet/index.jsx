@@ -85,7 +85,7 @@ export default function AskArlo() {
     <>
       <Head>
         <title>Velvet – Curtain Advisor</title>
-        <meta name="description" content="Ask Velvet your elegant AI curtain expert" />
+        <meta name="description" content="Ask Arlo your elegant AI curtain expert" />
         <link rel="icon" href="/favicon.ico" />
         <link
           href="https://fonts.googleapis.com/css2?family=Outfit:wght@300..700&display=swap"
@@ -114,7 +114,7 @@ export default function AskArlo() {
                 key={i}
                 className={`flex items-start gap-2 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                {msg.role === 'assistant' && <VelvetAvatar />}
+                {msg.role === 'assistant' && <ArloAvatar />}
                 <div
                   className={`p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md transition ${
                     msg.role === 'user' ? 'bg-[#eae7e0] text-left ml-auto'
@@ -122,7 +122,7 @@ export default function AskArlo() {
                   }`}
                 >
                   <strong className="block mb-1 text-sm text-[#555] font-medium">
-                    {msg.role === 'user' ? 'You' : 'Velvet'}:
+                    {msg.role === 'user' ? 'You' : 'Arlo'}:
                   </strong>
                   <div>{msg.content}</div>
                 </div>
@@ -133,7 +133,7 @@ export default function AskArlo() {
   <div className="flex items-start gap-2 justify-start">
     <VelvetAvatar />
     <div className="p-5 rounded-3xl max-w-[75%] sm:max-w-[85%] text-[15px] leading-relaxed shadow-md border border-[#e5dfd2] bg-[#faf9f6] backdrop-blur-sm shadow-[0_0_15px_rgba(255,192,203,0.15)] text-left">
-      <strong className="block mb-1 text-sm text-[#555] font-medium">Velvet:</strong>
+      <strong className="block mb-1 text-sm text-[#555] font-medium">Arlo:</strong>
       <span>
         {displayedAnswer}
         <span className="inline-block w-[1px] h-5 bg-[#555] animate-pulse ml-0.5 align-middle"></span>
@@ -147,7 +147,7 @@ export default function AskArlo() {
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100" />
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200" />
-                <span className="ml-2">Velvet is thinking…</span>
+                <span className="ml-2">Arlo is thinking…</span>
               </div>
             )}
           </div>
@@ -156,7 +156,7 @@ export default function AskArlo() {
   <textarea
     rows="2"
     className="w-full border border-[#ddd8d2] rounded-xl p-3 focus:outline-none focus:ring focus:border-[#c7bfae]"
-    placeholder="Ask something like: 'What’s the best blackout curtain for a bedroom window?'"
+    placeholder="Ask something like: 'What’s the best curtain for a bedroom Apex window?'"
     value={question}
     onChange={(e) => setQuestion(e.target.value)}
   ></textarea>
@@ -166,16 +166,8 @@ export default function AskArlo() {
   className="w-full bg-[#222] py-2.5 rounded-xl hover:bg-[#444] transition-all font-medium tracking-wide shadow-md hover:shadow-lg"
   disabled={loading}
 >
-  {loading ? 'Thinking…' : 'Ask Velvet'}
-</button>
-  <a
-    href="https://www.curtainsuk.com/pages/book-your-home-visit"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="w-full bg-pink-500 text-white py-2.5 rounded-xl hover:bg-pink-600 transition-all font-medium tracking-wide shadow-md hover:shadow-lg text-center"
-  >
-    Book Free Home Consultation
-  </a>
+  {loading ? 'Thinking…' : 'Ask Arlo'}
+
 </div>
         </div>
       </main>
