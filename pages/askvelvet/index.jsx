@@ -173,7 +173,7 @@ const ArloAvatar = () => (
   disabled={loading}
 >
   {loading ? 'Thinking…' : 'Ask Arlo'}
-
+</button>
 </div>
         </div>
       </main>
