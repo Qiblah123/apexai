@@ -2,8 +2,13 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 
 export default function AskArlo() {
-  const [question, setQuestion] = useState('');
-  const [messages, setMessages] = useState([]);
+ const [messages, setMessages] = useState([
+  {
+    role: 'assistant',
+    content: `Hello, I’m Arlo — your curtain advisor for apex, gable-end, and angled windows. I specialise in made-to-measure solutions that bring both beauty and function to uniquely shaped spaces.\n\nTo get started, could you tell me what kind of room and window we’re working with?`
+  }
+]);
+
   const [loading, setLoading] = useState(false);
   const [voices, setVoices] = useState([]);
   const [displayedAnswer, setDisplayedAnswer] = useState('');
