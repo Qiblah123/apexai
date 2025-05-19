@@ -32,12 +32,13 @@ Always ask a warm, helpful follow-up question if the user hasn't provided enough
         'Content-Type': 'application/json',
         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
       },
-      body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [systemMessage, ...messages],
-        temperature: 0.7,
-        max_tokens: 300
-      })
+    body: JSON.stringify({
+  model: 'gpt-4o',
+  messages: [systemMessage, ...messages],
+  temperature: 0.7,
+  max_tokens: 300
+})
+
     });
 
     const data = await response.json();
