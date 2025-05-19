@@ -76,15 +76,16 @@ export default function AskArlo() {
     setShowBar(false);
   };
 
-  const VelvetAvatar = () => (
-    <div className="relative w-10 h-10 flex-shrink-0 drop-shadow-md">
-      <div className="absolute -inset-1 rounded-full border-2 border-pink-300 animate-ping opacity-20 z-0" />
-      <div className="absolute inset-0 rounded-full bg-pink-400 opacity-40 blur-xl animate-pulse z-0"></div>
-      <div className="relative z-10 w-full h-full rounded-full bg-gradient-to-r from-pink-500 to-purple-600 shadow-lg flex items-center justify-center text-white font-bold text-sm">
-        V
-      </div>
+const ArloAvatar = () => (
+  <div className="relative w-10 h-10 flex-shrink-0 drop-shadow-md">
+    <div className="absolute -inset-1 rounded-full border-2 border-blue-300 animate-ping opacity-20 z-0" />
+    <div className="absolute inset-0 rounded-full bg-blue-400 opacity-40 blur-xl animate-pulse z-0"></div>
+    <div className="relative z-10 w-full h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-600 shadow-lg flex items-center justify-center text-white font-bold text-sm">
+      A
     </div>
-  );
+  </div>
+);
+
 
   return (
     <>
@@ -101,7 +102,7 @@ export default function AskArlo() {
       <main className="min-h-screen bg-[#fdfaf6] text-[#222] px-4 py-10 font-[Outfit] antialiased tracking-tight flex justify-center">
         <div className="w-full max-w-2xl bg-white shadow-xl rounded-3xl px-6 py-8 border border-[#f2e6df] ring-2 ring-pink-100 ring-offset-2 ring-offset-[#fdfaf6]">
           <h1 className="text-4xl font-bold text-center text-[#3c3c3c] mb-2 animate-fade-in">
-            Meet Velvet
+            Meet Arlo
           </h1>
           <p className="text-center text-[#7a7a7a] italic mb-6 text-lg">
             ✨ Curtain consultations, the Arlo way.
