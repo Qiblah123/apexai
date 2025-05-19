@@ -189,7 +189,8 @@ export default function AskVelvet() {
               disabled={loading}
             >
               {loading ? 'Thinking…' : 'Ask Velvet'}
-            $1<a
+</button>
+<a
   href="https://www.curtainsuk.com/pages/book-your-home-visit"
   target="_blank"
   rel="noopener noreferrer"
