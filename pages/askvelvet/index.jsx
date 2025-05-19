@@ -175,29 +175,29 @@ export default function AskVelvet() {
             )}
           </div>
 
-          <div className="mt-6">
-            <textarea
-              rows="2"
-              className="w-full border border-[#ddd8d2] rounded-xl p-3 focus:outline-none focus:ring focus:border-[#c7bfae]"
-              placeholder="Ask something like: 'What’s the best blackout curtain for a bedroom window?'"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-            ></textarea>
-            <button
-              onClick={handleSubmit}
-              className="w-full mt-3 bg-[#222] text-white py-2.5 rounded-xl hover:bg-[#444] transition-all font-medium tracking-wide shadow-md hover:shadow-lg"
-              disabled={loading}
-            >
-              {loading ? 'Thinking…' : 'Ask Velvet'}
-</button>
-<a
-  href="https://www.curtainsuk.com/pages/book-your-home-visit"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="w-full mt-3 bg-pink-500 text-white py-2.5 rounded-xl hover:bg-pink-600 transition-all font-medium tracking-wide shadow-md hover:shadow-lg text-center block"
->
-  Book Free Home Consultation
-</a>
+          <div className="flex flex-col gap-3 mt-6">
+  <textarea
+    rows="2"
+    className="w-full border border-[#ddd8d2] rounded-xl p-3 focus:outline-none focus:ring focus:border-[#c7bfae]"
+    placeholder="Ask something like: 'What’s the best blackout curtain for a bedroom window?'"
+    value={question}
+    onChange={(e) => setQuestion(e.target.value)}
+  ></textarea>
+  <button
+    onClick={handleSubmit}
+    className="w-full bg-[#222] text-white py-2.5 rounded-xl hover:bg-[#444] transition-all font-medium tracking-wide shadow-md hover:shadow-lg"
+    disabled={loading}
+  >
+    {loading ? 'Thinking…' : 'Ask Velvet'}
+  </button>
+  <a
+    href="https://www.curtainsuk.com/pages/book-your-home-visit"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="w-full bg-pink-500 text-white py-2.5 rounded-xl hover:bg-pink-600 transition-all font-medium tracking-wide shadow-md hover:shadow-lg text-center"
+  >
+    Book Free Home Consultation
+  </a>
 </div>
         </div>
       </main>
