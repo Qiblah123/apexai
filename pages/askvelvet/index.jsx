@@ -131,7 +131,7 @@ export default function AskVelvet() {
             </div>
           )}
 
-          <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm h-[420px] p-5 overflow-y-auto space-y-6">
+          <div className="border border-[#e6e2dd] rounded-xl bg-white shadow-sm max-h-[420px] p-5 overflow-y-auto space-y-6">
             {messages.map((msg, i) => (
               <div
                 key={i}
@@ -175,7 +175,7 @@ export default function AskVelvet() {
             )}
           </div>
 
-          <div className="flex flex-col gap-3 mt-6">
+          <div className="flex flex-col gap-3 mt-6 mb-4">
   <textarea
     rows="2"
     className="w-full border border-[#ddd8d2] rounded-xl p-3 focus:outline-none focus:ring focus:border-[#c7bfae]"
@@ -204,3 +204,4 @@ export default function AskVelvet() {
     </>
   );
 }
+
