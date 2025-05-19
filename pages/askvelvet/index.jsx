@@ -21,30 +21,10 @@ export default function AskVelvet() {
     }
   }, []);
 
-  const speak = (text) => {
-    if (typeof window === 'undefined') return;
-    speechSynthesis.cancel();
-    const velvetVoice = voices.find(v => v?.name?.includes("Google UK English Female")) || voices[0] || null;
+  const speak = () => {
+  // Voice is currently disabled
+};
 
-    const chunks = text.match(/[^.!?]+[.!?]+/g) || [text];
-
-    let index = 0;
-    const speakNext = () => {
-      if (index >= chunks.length) return;
-      const utterance = new SpeechSynthesisUtterance(chunks[index].trim());
-      if (velvetVoice) utterance.voice = velvetVoice;
-      utterance.lang = 'en-GB';
-      utterance.rate = 1;
-      utterance.pitch = 1.1;
-      utterance.onend = () => {
-        index++;
-        speakNext();
-      };
-      speechSynthesis.speak(utterance);
-    };
-
-    setTimeout(() => speakNext(), 100);
-  };
 
   const typeOut = (text, callback) => {
     setDisplayedAnswer('');
