@@ -84,7 +84,7 @@ export default function AskArlo() {
   return (
     <>
       <Head>
-        <title>Velvet – Curtain Advisor</title>
+        <title>Arlo – Apex Windows Curtain Advisor</title>
         <meta name="description" content="Ask Arlo your elegant AI curtain expert" />
         <link rel="icon" href="/favicon.ico" />
         <link
@@ -99,7 +99,7 @@ export default function AskArlo() {
             Meet Velvet
           </h1>
           <p className="text-center text-[#7a7a7a] italic mb-6 text-lg">
-            ✨ Curtain consultations, the Velvet way.
+            ✨ Curtain consultations, the Arlo way.
           </p>
 
           {showBar && (
