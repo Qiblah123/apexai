@@ -11,15 +11,12 @@ export default function AskVelvet() {
   const [showBar, setShowBar] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.speechSynthesis) {
-      const loadVoices = () => {
-        const availableVoices = window.speechSynthesis.getVoices();
-        if (availableVoices.length) setVoices(availableVoices);
-      };
-      loadVoices();
-      window.speechSynthesis.onvoiceschanged = loadVoices;
-    }
-  }, []);
+  // Voice support is disabled
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    window.speechSynthesis.cancel(); // Ensure nothing is speaking
+  }
+}, []);
+
 
   const speak = () => {
   // Voice is currently disabled
