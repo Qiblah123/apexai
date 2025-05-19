@@ -171,7 +171,7 @@ const ArloAvatar = () => (
   style={{ color: '#ffffff' }} // enforce white text
   className="w-full bg-[#222] py-2.5 rounded-xl hover:bg-[#444] transition-all font-medium tracking-wide shadow-md hover:shadow-lg"
   disabled={loading}
->
+> 
   {loading ? 'Thinking…' : 'Ask Arlo'}
 </button>
 </div>
