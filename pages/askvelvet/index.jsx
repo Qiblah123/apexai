@@ -189,8 +189,15 @@ export default function AskVelvet() {
               disabled={loading}
             >
               {loading ? 'Thinking…' : 'Ask Velvet'}
-            </button>
-          </div>
+            $1<a
+  href="https://www.curtainsuk.com/pages/book-your-home-visit"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="w-full mt-3 bg-pink-500 text-white py-2.5 rounded-xl hover:bg-pink-600 transition-all font-medium tracking-wide shadow-md hover:shadow-lg text-center block"
+>
+  Book Free Home Consultation
+</a>
+</div>
         </div>
       </main>
     </>
